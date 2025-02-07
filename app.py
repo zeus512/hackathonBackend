@@ -1,9 +1,10 @@
 from flask import Flask, request, jsonify
 from google.cloud import speech_v1p1beta1 as speech
 from google.cloud import translate_v2 as translate  # Import Cloud Translation
-
+from google.cloud import texttospeech
 import os
 import spacy
+import uuid 
 
 app = Flask(__name__)
 
@@ -22,6 +23,12 @@ except Exception as e:
     print(f"Error initializing translation client: {e}")
     translate_client = None
 
+# Initialize the TTS client (do this *once* when the app starts)
+try:
+    tts_client = texttospeech.TextToSpeechClient()
+except Exception as e:
+    print(f"Error initializing TTS client: {e}")
+    tts_client = None
 
 @app.route('/transcribe', methods=['POST'])
 def transcribe_audio():
@@ -149,6 +156,68 @@ def translate_text():
             except Exception as e:
                 translations[lang] = f"Error: {str(e)}"  # Store error message
         return jsonify({'translations': translations}), 200 #Returns a dictionary of translations
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/tts', methods=['POST'])
+def generate_speech():
+    """Endpoint to generate speech from text."""
+    data = request.get_json()
+    text = data.get('text')
+    language_code = data.get('language_code', 'en-US')  # Default to US English
+    voice_name = data.get('voice_name')  # Optional: specify voice
+    speaking_rate = data.get('speaking_rate', 1.0) #Optional: speaking rate
+
+    if not text:
+        return jsonify({'error': 'Missing "text" in request'}), 400
+
+    if tts_client is None:
+        return jsonify({'error': 'TTS client not initialized'}), 500
+
+    try:
+        synthesis_input = texttospeech.SynthesisInput(text=text)
+
+        voice = texttospeech.VoiceSelectionParams(
+            language_code=language_code,
+            name=voice_name  # Optional: specify voice
+        )
+
+        audio_config = texttospeech.AudioConfig(
+            audio_encoding=texttospeech.AudioEncoding.MP3,  # Or LINEAR16, WAV, etc.
+            speaking_rate = speaking_rate
+        )
+
+        response = tts_client.synthesize_speech(
+            input=synthesis_input, voice=voice, audio_config=audio_config
+        )
+
+        audio_content = response.audio_content
+        # You can now save audio_content to a file or stream it directly
+         # Generate a unique filename (to avoid collisions)
+        unique_filename = str(uuid.uuid4()) + ".mp3"  # Or appropriate extension
+        local_file_path = os.path.join("./data/generated_audio_files", unique_filename)  # Path to save locally - make sure this directory exists
+
+        # Save the audio content to a local file
+        with open(local_file_path, "wb") as f:
+            f.write(audio_content)
+
+        # Construct the URL (for local development, this will be a file path)
+        audio_url = f"/data/generated_audio_files/{unique_filename}"  # Adjust path as needed
+
+        # uncomment for cloud storage usage
+        # # Create a Cloud Storage blob (file)
+        # blob = bucket.blob(unique_filename)
+
+        # # Upload the audio content to Cloud Storage
+        # blob.upload_from_string(audio_content)
+
+        # # Get the public URL of the blob
+        # audio_url = blob.public_url
+
+        return jsonify({'audio_url': audio_url}), 200
+        #return jsonify({'audio_content': audio_content.decode('ISO-8859-1')}), 200 #Returns base64 encoded string
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500

@@ -1,0 +1,1019 @@
+  Languages: ['ko-KR']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ko-KR-Neural2-C
+  Languages: ['ko-KR']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ko-KR-Standard-A
+  Languages: ['ko-KR']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ko-KR-Standard-B
+  Languages: ['ko-KR']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ko-KR-Standard-C
+  Languages: ['ko-KR']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ko-KR-Standard-D
+  Languages: ['ko-KR']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ko-KR-Wavenet-A
+  Languages: ['ko-KR']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ko-KR-Wavenet-B
+  Languages: ['ko-KR']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ko-KR-Wavenet-C
+  Languages: ['ko-KR']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ko-KR-Wavenet-D
+  Languages: ['ko-KR']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: lt-LT-Standard-A
+  Languages: ['lt-LT']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: lt-LT-Standard-B
+  Languages: ['lt-LT']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: lv-LV-Standard-A
+  Languages: ['lv-LV']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: lv-LV-Standard-B
+  Languages: ['lv-LV']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ml-IN-Standard-A
+  Languages: ['ml-IN']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ml-IN-Standard-B
+  Languages: ['ml-IN']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ml-IN-Standard-C
+  Languages: ['ml-IN']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ml-IN-Standard-D
+  Languages: ['ml-IN']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ml-IN-Wavenet-A
+  Languages: ['ml-IN']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ml-IN-Wavenet-B
+  Languages: ['ml-IN']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ml-IN-Wavenet-C
+  Languages: ['ml-IN']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ml-IN-Wavenet-D
+  Languages: ['ml-IN']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: mr-IN-Standard-A
+  Languages: ['mr-IN']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: mr-IN-Standard-B
+  Languages: ['mr-IN']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: mr-IN-Standard-C
+  Languages: ['mr-IN']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: mr-IN-Wavenet-A
+  Languages: ['mr-IN']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: mr-IN-Wavenet-B
+  Languages: ['mr-IN']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: mr-IN-Wavenet-C
+  Languages: ['mr-IN']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ms-MY-Standard-A
+  Languages: ['ms-MY']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ms-MY-Standard-B
+  Languages: ['ms-MY']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ms-MY-Standard-C
+  Languages: ['ms-MY']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ms-MY-Standard-D
+  Languages: ['ms-MY']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ms-MY-Wavenet-A
+  Languages: ['ms-MY']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ms-MY-Wavenet-B
+  Languages: ['ms-MY']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ms-MY-Wavenet-C
+  Languages: ['ms-MY']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ms-MY-Wavenet-D
+  Languages: ['ms-MY']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nb-NO-Standard-A
+  Languages: ['nb-NO']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nb-NO-Standard-B
+  Languages: ['nb-NO']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nb-NO-Standard-C
+  Languages: ['nb-NO']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nb-NO-Standard-D
+  Languages: ['nb-NO']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nb-NO-Standard-E
+  Languages: ['nb-NO']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nb-NO-Standard-F
+  Languages: ['nb-NO']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nb-NO-Standard-G
+  Languages: ['nb-NO']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nb-NO-Wavenet-A
+  Languages: ['nb-NO']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nb-NO-Wavenet-B
+  Languages: ['nb-NO']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nb-NO-Wavenet-C
+  Languages: ['nb-NO']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nb-NO-Wavenet-D
+  Languages: ['nb-NO']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nb-NO-Wavenet-E
+  Languages: ['nb-NO']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nb-NO-Wavenet-F
+  Languages: ['nb-NO']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nb-NO-Wavenet-G
+  Languages: ['nb-NO']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nl-BE-Standard-A
+  Languages: ['nl-BE']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nl-BE-Standard-B
+  Languages: ['nl-BE']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nl-BE-Standard-C
+  Languages: ['nl-BE']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nl-BE-Standard-D
+  Languages: ['nl-BE']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nl-BE-Wavenet-A
+  Languages: ['nl-BE']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nl-BE-Wavenet-B
+  Languages: ['nl-BE']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nl-BE-Wavenet-C
+  Languages: ['nl-BE']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nl-BE-Wavenet-D
+  Languages: ['nl-BE']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nl-NL-Standard-A
+  Languages: ['nl-NL']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nl-NL-Standard-B
+  Languages: ['nl-NL']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nl-NL-Standard-C
+  Languages: ['nl-NL']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nl-NL-Standard-D
+  Languages: ['nl-NL']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nl-NL-Standard-E
+  Languages: ['nl-NL']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nl-NL-Standard-F
+  Languages: ['nl-NL']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nl-NL-Standard-G
+  Languages: ['nl-NL']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nl-NL-Wavenet-A
+  Languages: ['nl-NL']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nl-NL-Wavenet-B
+  Languages: ['nl-NL']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nl-NL-Wavenet-C
+  Languages: ['nl-NL']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nl-NL-Wavenet-D
+  Languages: ['nl-NL']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nl-NL-Wavenet-E
+  Languages: ['nl-NL']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nl-NL-Wavenet-F
+  Languages: ['nl-NL']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: nl-NL-Wavenet-G
+  Languages: ['nl-NL']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pa-IN-Standard-A
+  Languages: ['pa-IN']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pa-IN-Standard-B
+  Languages: ['pa-IN']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pa-IN-Standard-C
+  Languages: ['pa-IN']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pa-IN-Standard-D
+  Languages: ['pa-IN']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pa-IN-Wavenet-A
+  Languages: ['pa-IN']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pa-IN-Wavenet-B
+  Languages: ['pa-IN']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pa-IN-Wavenet-C
+  Languages: ['pa-IN']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pa-IN-Wavenet-D
+  Languages: ['pa-IN']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pl-PL-Standard-A
+  Languages: ['pl-PL']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pl-PL-Standard-B
+  Languages: ['pl-PL']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pl-PL-Standard-C
+  Languages: ['pl-PL']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pl-PL-Standard-D
+  Languages: ['pl-PL']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pl-PL-Standard-E
+  Languages: ['pl-PL']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pl-PL-Standard-F
+  Languages: ['pl-PL']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pl-PL-Standard-G
+  Languages: ['pl-PL']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pl-PL-Wavenet-A
+  Languages: ['pl-PL']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pl-PL-Wavenet-B
+  Languages: ['pl-PL']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pl-PL-Wavenet-C
+  Languages: ['pl-PL']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pl-PL-Wavenet-D
+  Languages: ['pl-PL']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pl-PL-Wavenet-E
+  Languages: ['pl-PL']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pl-PL-Wavenet-F
+  Languages: ['pl-PL']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pl-PL-Wavenet-G
+  Languages: ['pl-PL']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pt-BR-Neural2-A
+  Languages: ['pt-BR']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pt-BR-Neural2-B
+  Languages: ['pt-BR']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pt-BR-Neural2-C
+  Languages: ['pt-BR']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pt-BR-Standard-A
+  Languages: ['pt-BR']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pt-BR-Standard-B
+  Languages: ['pt-BR']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pt-BR-Standard-C
+  Languages: ['pt-BR']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pt-BR-Standard-D
+  Languages: ['pt-BR']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pt-BR-Standard-E
+  Languages: ['pt-BR']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pt-BR-Wavenet-A
+  Languages: ['pt-BR']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pt-BR-Wavenet-B
+  Languages: ['pt-BR']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pt-BR-Wavenet-C
+  Languages: ['pt-BR']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pt-BR-Wavenet-D
+  Languages: ['pt-BR']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pt-BR-Wavenet-E
+  Languages: ['pt-BR']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pt-PT-Standard-A
+  Languages: ['pt-PT']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pt-PT-Standard-B
+  Languages: ['pt-PT']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pt-PT-Standard-C
+  Languages: ['pt-PT']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pt-PT-Standard-D
+  Languages: ['pt-PT']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pt-PT-Standard-E
+  Languages: ['pt-PT']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pt-PT-Standard-F
+  Languages: ['pt-PT']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pt-PT-Wavenet-A
+  Languages: ['pt-PT']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pt-PT-Wavenet-B
+  Languages: ['pt-PT']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pt-PT-Wavenet-C
+  Languages: ['pt-PT']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pt-PT-Wavenet-D
+  Languages: ['pt-PT']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pt-PT-Wavenet-E
+  Languages: ['pt-PT']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: pt-PT-Wavenet-F
+  Languages: ['pt-PT']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ro-RO-Standard-A
+  Languages: ['ro-RO']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ro-RO-Standard-B
+  Languages: ['ro-RO']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ro-RO-Wavenet-A
+  Languages: ['ro-RO']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ro-RO-Wavenet-B
+  Languages: ['ro-RO']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ru-RU-Standard-A
+  Languages: ['ru-RU']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ru-RU-Standard-B
+  Languages: ['ru-RU']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ru-RU-Standard-C
+  Languages: ['ru-RU']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ru-RU-Standard-D
+  Languages: ['ru-RU']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ru-RU-Standard-E
+  Languages: ['ru-RU']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ru-RU-Wavenet-A
+  Languages: ['ru-RU']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ru-RU-Wavenet-B
+  Languages: ['ru-RU']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ru-RU-Wavenet-C
+  Languages: ['ru-RU']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ru-RU-Wavenet-D
+  Languages: ['ru-RU']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ru-RU-Wavenet-E
+  Languages: ['ru-RU']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: sk-SK-Standard-A
+  Languages: ['sk-SK']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: sk-SK-Standard-B
+  Languages: ['sk-SK']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: sk-SK-Wavenet-A
+  Languages: ['sk-SK']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: sk-SK-Wavenet-B
+  Languages: ['sk-SK']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: sr-RS-Standard-A
+  Languages: ['sr-RS']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: sv-SE-Standard-A
+  Languages: ['sv-SE']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: sv-SE-Standard-B
+  Languages: ['sv-SE']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: sv-SE-Standard-C
+  Languages: ['sv-SE']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: sv-SE-Standard-D
+  Languages: ['sv-SE']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: sv-SE-Standard-E
+  Languages: ['sv-SE']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: sv-SE-Standard-F
+  Languages: ['sv-SE']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: sv-SE-Standard-G
+  Languages: ['sv-SE']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: sv-SE-Wavenet-A
+  Languages: ['sv-SE']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: sv-SE-Wavenet-B
+  Languages: ['sv-SE']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: sv-SE-Wavenet-C
+  Languages: ['sv-SE']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: sv-SE-Wavenet-D
+  Languages: ['sv-SE']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: sv-SE-Wavenet-E
+  Languages: ['sv-SE']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: sv-SE-Wavenet-F
+  Languages: ['sv-SE']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: sv-SE-Wavenet-G
+  Languages: ['sv-SE']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ta-IN-Standard-A
+  Languages: ['ta-IN']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ta-IN-Standard-B
+  Languages: ['ta-IN']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ta-IN-Standard-C
+  Languages: ['ta-IN']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ta-IN-Standard-D
+  Languages: ['ta-IN']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ta-IN-Wavenet-A
+  Languages: ['ta-IN']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ta-IN-Wavenet-B
+  Languages: ['ta-IN']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ta-IN-Wavenet-C
+  Languages: ['ta-IN']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ta-IN-Wavenet-D
+  Languages: ['ta-IN']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: te-IN-Standard-A
+  Languages: ['te-IN']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: te-IN-Standard-B
+  Languages: ['te-IN']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: te-IN-Standard-C
+  Languages: ['te-IN']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: te-IN-Standard-D
+  Languages: ['te-IN']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: th-TH-Neural2-C
+  Languages: ['th-TH']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: th-TH-Standard-A
+  Languages: ['th-TH']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: tr-TR-Standard-A
+  Languages: ['tr-TR']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: tr-TR-Standard-B
+  Languages: ['tr-TR']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: tr-TR-Standard-C
+  Languages: ['tr-TR']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: tr-TR-Standard-D
+  Languages: ['tr-TR']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: tr-TR-Standard-E
+  Languages: ['tr-TR']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: tr-TR-Wavenet-A
+  Languages: ['tr-TR']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: tr-TR-Wavenet-B
+  Languages: ['tr-TR']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: tr-TR-Wavenet-C
+  Languages: ['tr-TR']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: tr-TR-Wavenet-D
+  Languages: ['tr-TR']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: tr-TR-Wavenet-E
+  Languages: ['tr-TR']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: uk-UA-Standard-A
+  Languages: ['uk-UA']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: uk-UA-Wavenet-A
+  Languages: ['uk-UA']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ur-IN-Standard-A
+  Languages: ['ur-IN']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ur-IN-Standard-B
+  Languages: ['ur-IN']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ur-IN-Wavenet-A
+  Languages: ['ur-IN']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: ur-IN-Wavenet-B
+  Languages: ['ur-IN']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: vi-VN-Neural2-A
+  Languages: ['vi-VN']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: vi-VN-Neural2-D
+  Languages: ['vi-VN']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: vi-VN-Standard-A
+  Languages: ['vi-VN']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: vi-VN-Standard-B
+  Languages: ['vi-VN']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: vi-VN-Standard-C
+  Languages: ['vi-VN']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: vi-VN-Standard-D
+  Languages: ['vi-VN']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: vi-VN-Wavenet-A
+  Languages: ['vi-VN']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: vi-VN-Wavenet-B
+  Languages: ['vi-VN']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: vi-VN-Wavenet-C
+  Languages: ['vi-VN']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: vi-VN-Wavenet-D
+  Languages: ['vi-VN']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: yue-HK-Standard-A
+  Languages: ['yue-HK']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: yue-HK-Standard-B
+  Languages: ['yue-HK']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: yue-HK-Standard-C
+  Languages: ['yue-HK']
+  Gender: FEMALE
+  Sample Rate: 24000
+--------------------
+Voice Name: yue-HK-Standard-D
+  Languages: ['yue-HK']
+  Gender: MALE
+  Sample Rate: 24000
+--------------------
+Voice Name: en-US-Casual-K
+Voice Name: en-US-Journey-D
+Voice Name: en-US-Journey-F
+Voice Name: en-US-Journey-O
+Voice Name: en-US-Neural2-A
+Voice Name: en-US-Neural2-C
+Voice Name: en-US-Neural2-D
+Voice Name: en-US-Neural2-E
+Voice Name: en-US-Neural2-F
+Voice Name: en-US-Neural2-G
+Voice Name: en-US-Neural2-H
+Voice Name: en-US-Neural2-I
+Voice Name: en-US-Neural2-J
+Voice Name: en-US-News-K
+Voice Name: en-US-News-L
+Voice Name: en-US-News-N
+Voice Name: en-US-Polyglot-1
+Voice Name: en-US-Standard-A
+Voice Name: en-US-Standard-B
+Voice Name: en-US-Standard-C
+Voice Name: en-US-Standard-D
+Voice Name: en-US-Standard-E
+Voice Name: en-US-Standard-F
+Voice Name: en-US-Standard-G
+Voice Name: en-US-Standard-H
+Voice Name: en-US-Standard-I
+Voice Name: en-US-Standard-J
+Voice Name: en-US-Studio-O
+Voice Name: en-US-Studio-Q
+Voice Name: en-US-Wavenet-A
+Voice Name: en-US-Wavenet-B
+Voice Name: en-US-Wavenet-C
+Voice Name: en-US-Wavenet-D
+Voice Name: en-US-Wavenet-E
+Voice Name: en-US-Wavenet-F
+Voice Name: en-US-Wavenet-G
+Voice Name: en-US-Wavenet-H
+Voice Name: en-US-Wavenet-I
+Voice Name: en-US-Wavenet-J
+(.venv) goutham.reddy@JLMP12427 hackathonBackend % 
