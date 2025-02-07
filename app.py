@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, make_response
 from google.cloud import speech_v1p1beta1 as speech
 from google.cloud import translate_v2 as translate  # Import Cloud Translation
 from google.cloud import texttospeech
@@ -222,6 +222,9 @@ def generate_speech():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/dummy', methods=['GET'])
+def respond_dummy():
+    return jsonify({"Hello":"dummy"}), 200
 
 @app.route('/process_audio', methods=['POST'])
 def process_audio():
@@ -307,12 +310,14 @@ def process_audio():
                     event_translations[event_type][entity] = entity_translations
 
             translations['events'] = event_translations
-
-        return jsonify({'transcript': transcript, 'events': events, 'translations':translations}), 200
+        response = make_response(jsonify({'transcript': transcript, 'events': events, 'translations': translations}), 200)
+        response.headers['Content-Type'] = 'application/json; charset=utf-8'
+        return response
+        #return jsonify({'transcript': transcript, 'events': events, 'translations':translations}), 200
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
 
 if __name__ == '__main__':
-    app.run(debug=True)  # debug=True for local development only
+    app.run(host='0.0.0.0',port='3000', debug=True) # debug=True for local development only
