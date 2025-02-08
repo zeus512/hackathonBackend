@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, make_response
+from flask import Flask, request, jsonify, make_response, send_from_directory
 from google.cloud import speech_v1p1beta1 as speech
 from google.cloud import translate_v2 as translate  # Import Cloud Translation
 from google.cloud import texttospeech
@@ -30,11 +30,45 @@ except Exception as e:
     print(f"Error initializing TTS client: {e}")
     tts_client = None
 
+
+AUDIO_DIRECTORY = "./data"  # Directory where your audio files are stored. Create this directory.
+# Ensure the directory exists
+os.makedirs(AUDIO_DIRECTORY, exist_ok=True)
+
+
+AUDIO_GENERATED_DIRECTORY = "./data/generated_audio_files"  # Directory where your audio files are stored. Create this directory.
+# Ensure the directory exists
+os.makedirs(AUDIO_GENERATED_DIRECTORY, exist_ok=True)
+
+@app.route('/audio/mobile', methods=['GET'])
+def player_audio():
+    """Serves the requested audio file."""
+    filename = request.args.get('filename')
+    generated = request.args.get('generated', 'false').lower() == 'true'
+
+    if not filename:
+        return jsonify({'error': 'Missing "filename" query parameter'}), 400
+
+    path = AUDIO_GENERATED_DIRECTORY if generated else AUDIO_DIRECTORY  # Correct path selection
+
+    filepath = os.path.join(path, filename)  # Path join for security
+
+    try:  # Include file existence check in try block
+        if not os.path.exists(filepath):  # Check if file exists *before* sending
+            return jsonify({'error': 'Audio file not found'}), 404
+        return send_from_directory(path, filename)  # Use the selected path
+
+    except Exception as e:
+        return jsonify({'error': f'Error serving audio file: {str(e)}'}), 500
+
+
+
 @app.route('/transcribe', methods=['POST'])
 def transcribe_audio():
     """Transcribes the audio file using Cloud Speech-to-Text (local dev)."""
     data = request.get_json()
     audio_file_path = data.get('audio_uri')
+    language_code = data.get('language_code')
     try: 
         client = speech.SpeechClient()  # No explicit credentials needed!
 
@@ -62,19 +96,25 @@ def transcribe_audio():
         config = speech.RecognitionConfig(
             encoding=encoding,
             sample_rate_hertz=sample_rate_hertz,
-            language_code="en-UK",
+            language_code=language_code,
             enable_automatic_punctuation=True,
-            model="default",  # Try different models
+            model="chirp_2",  # Try different models
             #enhanced_model=True,  # Try enabling enhanced models
             # speech_contexts=[speech.SpeechContext(phrases=["common phrase 1", "common phrase 2"])] #Add common phrases
         )
         response = client.recognize(config=config, audio=audio)
         transcript = ""
+        transcript_with_timestamps = []
+        for result in response.results:
+             for alternative in result.alternatives:
+                start_time = result.result_end_time.total_seconds() - sum([x.end_time.total_seconds() for x in result.alternatives if x != alternative]) #Start time of the sentence
+                end_time = result.result_end_time.total_seconds() #End time of the sentence
+                transcript_with_timestamps.append({"transcript": alternative.transcript, "start_time": start_time, "end_time": end_time})
         for result in response.results:
             for alternative in result.alternatives:
                 transcript += alternative.transcript + " " # Concatenate alternatives
 
-        return jsonify({'transcript': transcript}), 200
+        return jsonify({'transcript': transcript, 'transcript_with_timestamps': transcript_with_timestamps}), 200
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500  # Return error details (dev only)
@@ -161,6 +201,30 @@ def translate_text():
         return jsonify({'error': str(e)}), 500
 
 
+def list_voices(language_code=None):
+    """Lists the available voices for Cloud Text-to-Speech."""
+
+    client = texttospeech.TextToSpeechClient()
+
+    request = texttospeech.ListVoicesRequest(language_code=language_code)
+
+    response = client.list_voices(request=request)
+
+    voices = {}
+    for voice in response.voices:
+        languages = voice.language_codes
+        name = voice.name
+        gender = texttospeech.SsmlVoiceGender(voice.ssml_gender).name
+        natural_sample_rate_hertz = voice.natural_sample_rate_hertz
+
+        voices[name] = {
+            "language_codes": languages,
+            "gender": gender,
+            "natural_sample_rate_hertz": natural_sample_rate_hertz,
+        }
+
+    return voices
+
 @app.route('/tts', methods=['POST'])
 def generate_speech():
     """Endpoint to generate speech from text."""
@@ -169,7 +233,7 @@ def generate_speech():
     language_code = data.get('language_code', 'en-US')  # Default to US English
     voice_name = data.get('voice_name')  # Optional: specify voice
     speaking_rate = data.get('speaking_rate', 1.0) #Optional: speaking rate
-
+    actual_language_code = language_code
     if not text:
         return jsonify({'error': 'Missing "text" in request'}), 400
 
@@ -178,9 +242,18 @@ def generate_speech():
 
     try:
         synthesis_input = texttospeech.SynthesisInput(text=text)
+    
+        if not voice_name:  # If voice_name is not provided, try to find a default
+            available_voices = list_voices(language_code)
+            if available_voices:
+                # Choose a voice (e.g., the first one)
+                voice_name = list(available_voices.keys())[0]  # Get the first voice name
+                actual_language_code = available_voices[voice_name]["language_codes"][0] #Get New language code
+                print(f"Using default voice: {voice_name} for language {language_code}")
+
 
         voice = texttospeech.VoiceSelectionParams(
-            language_code=language_code,
+            language_code=actual_language_code,
             name=voice_name  # Optional: specify voice
         )
 
@@ -204,7 +277,7 @@ def generate_speech():
             f.write(audio_content)
 
         # Construct the URL (for local development, this will be a file path)
-        audio_url = f"/data/generated_audio_files/{unique_filename}"  # Adjust path as needed
+        audio_url = f"/audio/mobile?filename={unique_filename}&generated=true"  # Adjust path as needed
 
         # uncomment for cloud storage usage
         # # Create a Cloud Storage blob (file)
@@ -225,6 +298,65 @@ def generate_speech():
 @app.route('/dummy', methods=['GET'])
 def respond_dummy():
     return jsonify({"Hello":"dummy"}), 200
+
+
+@app.route('/process_text', methods=['POST'])
+def process_text():
+    """Processes the transcript (event extraction, translation)."""
+    data = request.get_json()
+    transcript = data.get('transcript')
+    target_languages = data.get('target_languages', ['en'])
+    translate_transcript = data.get('translate_transcript', True)
+    translate_events = data.get('translate_events', False)
+
+    if not transcript:
+        return jsonify({'error': 'Missing "transcript" in request'}), 400
+
+    try:
+        # 2. Event Extraction
+        if trained_ner_model is None:
+            return jsonify({'error': 'spaCy model not loaded'}), 500
+
+        events = extract_cricket_events(transcript, trained_ner_model)
+
+        # 3. Translation (same as before)
+        translations = {}
+
+        if translate_transcript:
+            transcript_translations = {}
+            for lang in target_languages:
+              try:
+                result = translate_client.translate(transcript, target_language=lang)
+                transcript_translations[lang] = result['translatedText']
+              except Exception as e:
+                transcript_translations[lang] = f"Error: {str(e)}"
+            translations['transcript'] = transcript_translations
+
+        if translate_events:
+            event_translations = {}
+            for event in events:
+                event_type = event.get('event')
+                entity = event.get('entity')
+                if entity: #Translate the entity
+                    entity_translations = {}
+                    for lang in target_languages:
+                      try:
+                        result = translate_client.translate(entity, target_language=lang)
+                        entity_translations[lang] = result['translatedText']
+                      except Exception as e:
+                        entity_translations[lang] = f"Error: {str(e)}"
+                    if event_type not in event_translations:
+                        event_translations[event_type] = {}
+                    event_translations[event_type][entity] = entity_translations
+
+            translations['events'] = event_translations
+        response = make_response(jsonify({'events': events, 'translations': translations}), 200)
+        response.headers['Content-Type'] = 'application/json; charset=utf-8'
+        return response
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 
 @app.route('/process_audio', methods=['POST'])
 def process_audio():

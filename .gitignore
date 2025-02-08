@@ -1,3 +1,4 @@
 .venv
 ./venv/*
 ./data/generated_audio_files/*
+data/generated_audio_files/
