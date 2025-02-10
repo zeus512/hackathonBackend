@@ -74,34 +74,3 @@ target_language = "telugu"  # Or "hi", "ta", "bn", etc.
 
 translated_commentary = translate_cricket_commentary(english_text, target_language)
 print(translated_commentary)
-
-# # ... (You can call the function with different text and languages)
-
-# def multiturn_generate_content():
-#     vertexai.init(
-#         project="xxxxxx",
-#         location="us-central1",
-#         api_endpoint="us-central1-aiplatform.googleapis.com"
-#     )
-#     model = GenerativeModel(
-#         "projects/xxxxxx/locations/us-central1/endpoints/xxxxxx",
-#     )
-#     chat = model.start_chat()
-#     print(chat.send_message(
-#         [text1_1],
-#         generation_config=generation_config,
-#         safety_settings=safety_settings
-#     ))
-
-# text1_1 = """ You are an expert in translating cricket commentary from English to Telegu and should use terminology which is commonly used in the commentary. You must preserve the meaning and provide accurate translations. Translate the output in Telegu Language. Exclude any other text apart from translated commentary.  
-#         set for play to start and here's Ashley  fade away some swing  down the next side and he's off and away and the typical Steve Smith shot hit on the up.  Let's hit hard very hard.  second boundary for Smith another one  that's the best of the Lord that West away total control.  That's pulled away.  mother shot delivery  Put away by shot.  It's trash that through the offside.  He's used the pace here to good affect one bounce over the room.  when I start to start off driving through the covers and it's about boundary for Josh English and face on  and it goes to the  boundary  again in the gap again missing his language in his line.  And many balls- won outside the has been plattered over point for a 6.  Goes for the slower one.  It's very nicely in other.  languages  22 runs coming  Up, it's a feeling of the deep. That's well placed again from Joss English  Lot better it's got a rational stryker's egg. Oh my god.  This is it completely.  a little bit wicked number two for India  oh  that is  zinc piece of timing  the today good shot
-#         """
-# generation_config = {
-#     "max_output_tokens": 8192,
-#     "temperature": 1,
-#     "top_p": 0.95,
-# }
-
-
-
-#multiturn_generate_content()
