@@ -2,6 +2,9 @@ from flask import Flask, request, jsonify, make_response, send_from_directory
 from google.cloud import speech_v1p1beta1 as speech
 from google.cloud import translate_v2 as translate  # Import Cloud Translation
 from google.cloud import texttospeech
+import base64
+import vertexai
+from vertexai.generative_models import GenerativeModel, SafetySetting, Part
 import os
 import spacy
 import uuid 
@@ -39,6 +42,70 @@ os.makedirs(AUDIO_DIRECTORY, exist_ok=True)
 AUDIO_GENERATED_DIRECTORY = "./data/generated_audio_files"  # Directory where your audio files are stored. Create this directory.
 # Ensure the directory exists
 os.makedirs(AUDIO_GENERATED_DIRECTORY, exist_ok=True)
+
+vertexai.init(
+    project="555187634505",
+    location="us-central1",
+    api_endpoint="us-central1-aiplatform.googleapis.com"
+)
+model = GenerativeModel(
+    "projects/555187634505/locations/us-central1/endpoints/8278945424664952832",
+)
+
+
+def translate_cricket_commentary(english_text, target_language):
+    """Translates cricket commentary using a chat-based approach.
+
+    Args:
+        english_text: The English cricket commentary text.
+        target_language: The target language code (e.g., "te", "hi", "ta").
+
+    Returns:
+        The translated commentary, or an error message.
+    """
+
+    chat = model.start_chat()  # Start a chat session
+
+    prompt = f"""You are an expert in translating cricket commentary from English to {target_language}. You should use terminology commonly used in {target_language} cricket commentary. You must preserve the meaning and provide accurate translations. Output ONLY the {target_language} translation. Do not include any other languages or explanations."""
+
+    full_prompt = f"{prompt}\n\n{english_text}"
+
+    generation_config = {
+        "max_output_tokens": 8192,  # Adjust as needed
+        "temperature": 1,         # Adjust as needed
+        "top_p": 0.95,          # Adjust as needed
+    }
+
+    safety_settings = [
+        SafetySetting(
+            category=SafetySetting.HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+            threshold=SafetySetting.HarmBlockThreshold.OFF
+        ),
+        SafetySetting(
+            category=SafetySetting.HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+            threshold=SafetySetting.HarmBlockThreshold.OFF
+        ),
+        SafetySetting(
+            category=SafetySetting.HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+            threshold=SafetySetting.HarmBlockThreshold.OFF
+        ),
+        SafetySetting(
+            category=SafetySetting.HarmCategory.HARM_CATEGORY_HARASSMENT,
+            threshold=SafetySetting.HarmBlockThreshold.OFF
+        ),
+    ]
+
+    try:
+        response = chat.send_message(  # Use chat.send_message()
+            full_prompt,  # Send the combined prompt and text
+            generation_config=generation_config,
+            safety_settings=safety_settings
+        )
+        translation = response.text.strip()
+        return translation
+    except Exception as e:
+        return f"Error: {str(e)}"
+
 
 @app.route('/audio/mobile', methods=['GET'])
 def player_audio():
@@ -98,7 +165,7 @@ def transcribe_audio():
             sample_rate_hertz=sample_rate_hertz,
             language_code=language_code,
             enable_automatic_punctuation=True,
-            model="chirp_2",  # Try different models
+            model="default",  # Try different models
             #enhanced_model=True,  # Try enabling enhanced models
             # speech_contexts=[speech.SpeechContext(phrases=["common phrase 1", "common phrase 2"])] #Add common phrases
         )
@@ -169,6 +236,29 @@ def extract_events_endpoint():
 
 @app.route('/translate', methods=['POST'])
 def translate_text():
+    """Endpoint to translate text to multiple languages."""
+    data = request.get_json()
+    text = data.get('text')
+    target_languages = data.get('target_languages')
+
+    if not text:
+        return jsonify({'error': 'Missing "text" in request'}), 400
+
+    if not target_languages:
+        return jsonify({'error': 'Missing "target_languages" in request'}), 400
+
+    if not isinstance(target_languages, list):
+        return jsonify({'error': '"target_languages" must be a list'}), 400
+
+    translations = {}
+
+    for lang in target_languages:
+        translations[lang] = translate_cricket_commentary(text, lang)  # Use the new function
+
+    return jsonify({'translations': translations}), 200
+
+@app.route('/translate_old', methods=['POST'])
+def translate_text_old():
     """Endpoint to translate text to multiple languages."""
     data = request.get_json()
     text = data.get('text')
