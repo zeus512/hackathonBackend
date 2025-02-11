@@ -107,6 +107,155 @@ def translate_cricket_commentary(english_text, target_language):
         return f"Error: {str(e)}"
 
 
+@app.route('/manifest', methods=['POST'])
+def generate_manifest():
+    data = request.get_json()
+    original_audio_files = data.get('audio_files')
+
+    if not original_audio_files or not isinstance(original_audio_files, list):
+        return jsonify({'error': 'Missing or invalid "audio_files" in request'}), 400
+
+    manifest = {"audio_chunks": []}
+
+    for original_file in original_audio_files:
+        try:
+            translated_file = original_file.replace(".mp3", "_te.mp3")  # Example naming (improve if needed)
+            translated_filepath = os.path.join(AUDIO_GENERATED_DIRECTORY, translated_file)
+
+            if not os.path.exists(translated_filepath):  # Only generate if it doesn't exist
+                # 1. Transcription (if needed - depends on your workflow)
+                transcript_data = transcribe_audio_local(os.path.join(AUDIO_DIRECTORY, original_file), "en-UK") # Transcribe to English first
+                if isinstance(transcript_data, tuple): #Check for error
+                    return jsonify({'error': transcript_data[1]}), transcript_data[0] #Return error
+                transcript = transcript_data.get('transcript')
+
+                # 2. Translation
+                translated_transcript = translate_cricket_commentary(transcript, "te")  # Translate to Telugu
+
+                # 3. TTS
+                tts_data = generate_speech_local(translated_transcript, "te-IN") #Generate speech in Telugu
+                if isinstance(tts_data, tuple): #Check for error
+                    return jsonify({'error': tts_data[1]}), tts_data[0] #Return error
+                audio_url = tts_data.get('audio_url')
+
+                # # Download the audio from the URL and save it locally
+                # import requests
+                # response = requests.get(audio_url)
+                # if response.status_code == 200:
+                #     with open(translated_filepath, "wb") as f:
+                #         f.write(response.content)
+                # else:
+                #     return jsonify({'error': f"Error downloading translated audio: {response.status_code}"}), 500
+
+            # 4. Add chunk info to the manifest
+            manifest["audio_chunks"].append({
+                "original_audio_filename": original_file,
+                "translated_audio_filename": translated_file,
+                "start_time": 0.0,  # Or get the actual start time if available
+                "end_time": 10.0   # Or get the actual end time if available
+            })
+
+        except Exception as e:
+            return jsonify({'error': f'Error processing {original_file}: {str(e)}'}), 500
+
+    return jsonify(manifest)
+
+# Helper functions for local transcription and TTS
+def transcribe_audio_local(audio_file_path, language_code):
+    """Transcribes audio using Cloud Speech-to-Text (local file path)."""
+    try:
+        client = speech.SpeechClient()
+
+        with open(audio_file_path, "rb") as audio_file:
+            content = audio_file.read()
+
+        audio = speech.RecognitionAudio(content=content)
+        # ... (rest of your transcription code - same as in /transcribe)
+        # 1. Determine encoding and sample rate (crucial!)
+        encoding = None
+        sample_rate_hertz = None
+
+        if audio_file_path.lower().endswith(".mp3"):
+            encoding = speech.RecognitionConfig.AudioEncoding.MP3
+            sample_rate_hertz = 44100  # Or 48000, check your MP3 file
+        elif audio_file_path.lower().endswith(".wav"):  # Add WAV support
+            encoding = speech.RecognitionConfig.AudioEncoding.LINEAR16
+            sample_rate_hertz = 16000  # Or another rate, check your WAV
+        elif audio_file_path.lower().endswith(".flac"): # Add FLAC support
+            encoding = speech.RecognitionConfig.AudioEncoding.FLAC
+            sample_rate_hertz = 16000 # Or other rate, check your FLAC
+        else:
+            raise ValueError("Unsupported audio format. Use MP3, WAV, or FLAC.")
+
+        config = speech.RecognitionConfig(
+            encoding=encoding,
+            sample_rate_hertz=sample_rate_hertz,
+            language_code=language_code,
+            enable_automatic_punctuation=True,
+            model="default",  # Try different models
+            #enhanced_model=True,  # Try enabling enhanced models
+            # speech_contexts=[speech.SpeechContext(phrases=["common phrase 1", "common phrase 2"])] #Add common phrases
+        )
+        response = client.recognize(config=config, audio=audio)
+        transcript = ""
+        transcript_with_timestamps = []
+        for result in response.results:
+             for alternative in result.alternatives:
+                start_time = result.result_end_time.total_seconds() - sum([x.end_time.total_seconds() for x in result.alternatives if x != alternative]) #Start time of the sentence
+                end_time = result.result_end_time.total_seconds() #End time of the sentence
+                transcript_with_timestamps.append({"transcript": alternative.transcript, "start_time": start_time, "end_time": end_time})
+        for result in response.results:
+            for alternative in result.alternatives:
+                transcript += alternative.transcript + " " # Concatenate alternatives
+
+        return {'transcript': transcript, 'transcript_with_timestamps': transcript_with_timestamps}
+
+    except Exception as e:
+        return 500, str(e)  # Return error code and message
+
+def generate_speech_local(text, language_code):
+    """Generates speech from text using Cloud Text-to-Speech (local save)."""
+    try:
+        tts_client = texttospeech.TextToSpeechClient()
+        synthesis_input = texttospeech.SynthesisInput(text=text)
+
+        available_voices = list_voices(language_code)
+        if available_voices:
+            # Choose a voice (e.g., the first one)
+            voice_name = list(available_voices.keys())[0]  # Get the first voice name
+            actual_language_code = available_voices[voice_name]["language_codes"][0] #Get New language code
+            print(f"Using default voice: {voice_name} for language {language_code}")
+
+        voice = texttospeech.VoiceSelectionParams(
+            language_code=actual_language_code,
+            name=voice_name  # Optional: specify voice
+        )
+
+        audio_config = texttospeech.AudioConfig(
+            audio_encoding=texttospeech.AudioEncoding.MP3,  # Or LINEAR16, WAV, etc.
+            speaking_rate = 1.0
+        )
+
+        response = tts_client.synthesize_speech(
+            input=synthesis_input, voice=voice, audio_config=audio_config
+        )
+
+        audio_content = response.audio_content
+
+        unique_filename = str(uuid.uuid4()) + ".mp3"
+        local_file_path = os.path.join("./data/generated_audio_files", unique_filename)
+
+        with open(local_file_path, "wb") as f:
+            f.write(audio_content)
+
+        audio_url = f"/audio/mobile?filename={unique_filename}&generated=true"
+
+        return {'audio_url': audio_url}
+
+    except Exception as e:
+        return 500, str(e)
+
+
 @app.route('/audio/mobile', methods=['GET'])
 def player_audio():
     """Serves the requested audio file."""
@@ -384,10 +533,6 @@ def generate_speech():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
-@app.route('/dummy', methods=['GET'])
-def respond_dummy():
-    return jsonify({"Hello":"dummy"}), 200
 
 
 @app.route('/process_text', methods=['POST'])
