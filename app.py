@@ -8,9 +8,21 @@ from vertexai.generative_models import GenerativeModel, SafetySetting, Part
 import os
 import spacy
 import uuid 
+import json
+import threading
+from flask import Flask, request, jsonify, Response
+from flask_sse import sse  # For SSE
+from flask_cors import CORS
+import time
+import urllib.parse
 
 app = Flask(__name__)
+CORS(app, resources={r"/stream/*": {"origins": "*"}})
+#CORS(app)  # Enable CORS for all routes
+app.config["REDIS_URL"] = "redis://localhost:6379/0" #Configure redis url
+app.register_blueprint(sse, url_prefix='/stream') #Register SSE blueprint
 
+active_clients = set()
 # Load the trained spaCy model (do this *once* when the app starts)
 try:
     trained_model_path = "./models/cricket_ner_model"  # Path to your trained model
@@ -43,6 +55,8 @@ AUDIO_GENERATED_DIRECTORY = "./data/generated_audio_files"  # Directory where yo
 # Ensure the directory exists
 os.makedirs(AUDIO_GENERATED_DIRECTORY, exist_ok=True)
 
+manifests = {}  # Store manifests in memory (for simplicity)
+
 vertexai.init(
     project="555187634505",
     location="us-central1",
@@ -51,6 +65,174 @@ vertexai.init(
 model = GenerativeModel(
     "projects/555187634505/locations/us-central1/endpoints/8278945424664952832",
 )
+
+
+def generate_manifest_from_files(audio_id):
+    manifest = {"audio_chunks": []}
+    i = 1
+    while True:
+        chunk_file = f"{audio_id}_chunk{i}.mp3"
+        original_file = f"{audio_id}_chunk{i}.mp3"  # Assuming original and chunk filenames are the same initially
+        chunk_path = os.path.join(AUDIO_GENERATED_DIRECTORY, chunk_file)
+
+        if not os.path.exists(chunk_path):
+            break
+
+        manifest["audio_chunks"].append({
+            "original_audio_filename": original_file,  # Add original filename HERE
+            "translated_audio_filename": None,  # Placeholder
+            "translated_audio_url": None,  # Placeholder
+            "start_time": 0.0,  # Or get actual start/end times if available
+            "end_time": 10.0
+        })
+        i += 1
+    return manifest
+
+# def generate_manifest_from_files(audio_id):
+#     manifest = {"audio_chunks": []}
+#     i = 1
+#     while True:
+#         chunk_file = f"{audio_id}_chunk{i}.mp3"
+#         chunk_path = os.path.join(AUDIO_GENERATED_DIRECTORY, chunk_file)
+
+#         if not os.path.exists(chunk_path):
+#             break
+
+#         manifest["audio_chunks"].append({
+#             "translated_audio_url": None  # Placeholder
+#         })
+#         i += 1
+#     return manifest
+
+# def process_chunk(audio_id, chunk_index):
+#     try:
+#         print(f"Processing chunk {chunk_index} for {audio_id}")  # Add this line
+#         chunk_file = f"{audio_id}_chunk{chunk_index + 1}.mp3"  # Adjust indexing if needed
+#         translated_audio_url = f"/audio/mobile?filename={chunk_file}&generated=true"
+
+#         manifests[audio_id]["audio_chunks"][chunk_index]["translated_audio_url"] = translated_audio_url
+
+#         # Send SSE event to connected clients
+#         print(f"translated_audio_url for chunk {chunk_index}: {translated_audio_url}") # Add this
+#         sse.publish(json.dumps({'chunk_index': chunk_index, 'audio_url': translated_audio_url}), type=f'chunk_update_{audio_id}') #Use type to filter messages
+#         print(f"Published SSE event for chunk {chunk_index} of {audio_id}")  # Add this
+
+#     except Exception as e:
+#         print(f"Error processing chunk {chunk_index}: {e}")
+#         # ... (Handle error)
+
+@app.route('/manifest/<audio_id>', methods=['GET'])
+def get_manifest(audio_id):
+    client_id = request.args.get('client_id', str(time.time()))  # You can use any unique client ID
+    active_clients.add(client_id)  # Add client to active clients list
+    if audio_id not in manifests:
+        manifest = generate_manifest_from_files(audio_id)
+        if manifest:
+            manifests[audio_id] = manifest
+        else:
+            return jsonify({'error': 'Error generating manifest'}), 500
+        print(f"Manifest for {audio_id}: {manifest}")
+    return jsonify(manifests[audio_id])
+
+# @app.route('/process_audio/<audio_id>', methods=['POST'])
+# def process_audio_for_manifest(audio_id):
+#     num_chunks = len(manifests[audio_id]["audio_chunks"])
+#     for i in range(num_chunks):
+#         print(f"I'm working till here")
+#         process_chunk(audio_id, i) #Process the chunk and update manifest
+#     return jsonify({"message": "Processing started"}), 200
+
+processing_complete = {}  # Dictionary to track processing completion for each audio_id
+
+
+@app.route('/process_audio/<audio_id>', methods=['POST'])
+def process_audio_for_manifest(audio_id):
+    if audio_id not in manifests:
+        return jsonify({'error': 'Manifest not found'}), 404
+
+    processing_complete[audio_id] = False  # Initialize the flag
+
+    # Start processing in the background
+    thread = threading.Thread(target=process_chunks_background, args=(audio_id,))
+    thread.start()
+
+    # Keep the request alive until processing is complete
+    while not processing_complete[audio_id]:
+        time.sleep(1)  # Check every second (adjust as needed)
+
+    del processing_complete[audio_id] #Remove the flag once processing is complete
+    return jsonify({"message": "Processing complete"}), 200 # Return a success message
+
+def process_chunks_background(audio_id):
+    manifest = manifests.get(audio_id)
+    if manifest:
+        for i, chunk in enumerate(manifest["audio_chunks"]):
+            with app.app_context():
+                original_file = chunk["original_audio_filename"]  # Get original filename
+                translated_file = original_file.replace(".mp3", "_te.mp3")  # Create translated filename
+                translated_filepath = os.path.join(AUDIO_GENERATED_DIRECTORY, translated_file)
+
+                # Check if the translated file already exists (for resuming)
+                if not os.path.exists(translated_filepath):
+                    try:
+                        # 1. Transcription (Pipeline Step 1)
+                        transcript_data = transcribe_audio_local(os.path.join(AUDIO_DIRECTORY, original_file), "en-UK")
+                        if isinstance(transcript_data, tuple):
+                            print(f"Transcription error for {original_file}: {transcript_data[1]}")
+                            continue  # Skip to the next file
+
+                        transcript = transcript_data.get('transcript')
+
+                        # 2. Translation (Pipeline Step 2)
+                        translated_transcript = translate_cricket_commentary(transcript, "te")
+
+                        # 3. TTS (Pipeline Step 3)
+                        tts_data = generate_speech_local(translated_transcript, "te-IN")
+                        if isinstance(tts_data, tuple):
+                            print(f"TTS error for {original_file}: {tts_data[1]}")
+                            continue  # Skip to the next file
+
+                        audio_url = tts_data.get('audio_url')
+                         # Extract the unique filename from the audio_url (if it's from your server)
+                        parsed_url = urllib.parse.urlparse(audio_url)
+                        query_params = urllib.parse.parse_qs(parsed_url.query)
+                        unique_filename = query_params.get('filename', [None])[0]
+
+                        if unique_filename:
+                            # Rename the file (if necessary - depends on your file storage)
+                            source_path = os.path.join(AUDIO_GENERATED_DIRECTORY, unique_filename) #Use unique name to find audio
+                            if os.path.exists(source_path): #If file exists then rename
+                                os.rename(source_path, translated_filepath)
+
+                            # ... (rest of the processing logic)
+                        else:
+                            print("Filename not found in audio_url")
+                            continue # Skip to the next file
+
+
+                        # ... (Your download code here if needed.  If TTS saves directly, skip this)
+
+                    except Exception as e:
+                        print(f"Error processing {original_file}: {e}")
+                        continue  # Skip to the next file
+
+                process_chunk(audio_id, i, translated_file)  # Pass translated_file to process_chunk
+
+def process_chunk(audio_id, chunk_index, translated_file):  # Add translated_file parameter
+    with app.app_context():
+        try:
+            print(f"Processing chunk {chunk_index} for {audio_id}")
+            translated_audio_url = f"/audio/mobile?filename={translated_file}&generated=true"  # Use translated_file
+
+            manifests[audio_id]["audio_chunks"][chunk_index]["translated_audio_url"] = translated_audio_url
+
+            print(f"translated_audio_url for chunk {chunk_index}: {translated_audio_url}")
+            sse.publish(json.dumps({'chunk_index': chunk_index, 'audio_url': translated_audio_url}), type=f'chunk_update_{audio_id}')
+            print(f"Published SSE event for chunk {chunk_index} of {audio_id}")
+
+        except Exception as e:
+            print(f"Error processing chunk {chunk_index}: {e}")
+            # ... (Handle error)
 
 
 def translate_cricket_commentary(english_text, target_language):
@@ -685,6 +867,19 @@ def process_audio():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+# @app.route('/clear_all_sse_sessions', methods=['POST'])
+def clear_all_sse_sessions():
+    # Clear all active SSE sessions by disconnecting all clients
+    for client_id in list(active_clients):
+        print(f"Disconnecting client {client_id}")
+        # You can use a custom method to notify or disconnect the client if needed.
+        # For now, we are simply removing from the active_clients set.
+        active_clients.remove(client_id)
+
+    return jsonify({"message": "All SSE client sessions cleared."})
+
+with app.app_context():
+    clear_all_sse_sessions()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port='3000', debug=True) # debug=True for local development only
